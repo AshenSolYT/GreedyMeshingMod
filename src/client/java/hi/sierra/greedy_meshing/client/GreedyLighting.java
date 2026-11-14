@@ -107,29 +107,30 @@ public final class GreedyLighting {
 
         BlockPos.MutableBlockPos samplePos = scratch.mutablePos;
 
-        BlockState state0 = sampleState(world, scratch, samplePos, c0x, c0y, c0z);
-        int i = sampleLight(world, scratch, samplePos, state0, c0x, c0y, c0z);
+        samplePos.set(c0x, c0y, c0z);
+        BlockState state0 = world.getBlockState(samplePos);
+        int i = greedyMeshing$getLightColor(world, state0, samplePos);
         float f = state0.getShadeBrightness(world, samplePos);
 
-        BlockState state1 = sampleState(world, scratch, samplePos, c1x, c1y, c1z);
-        int j = sampleLight(world, scratch, samplePos, state1, c1x, c1y, c1z);
+        samplePos.set(c1x, c1y, c1z);
+        BlockState state1 = world.getBlockState(samplePos);
+        int j = greedyMeshing$getLightColor(world, state1, samplePos);
         float g = state1.getShadeBrightness(world, samplePos);
 
-        BlockState state2 = sampleState(world, scratch, samplePos, c2x, c2y, c2z);
-        int k = sampleLight(world, scratch, samplePos, state2, c2x, c2y, c2z);
+        samplePos.set(c2x, c2y, c2z);
+        BlockState state2 = world.getBlockState(samplePos);
+        int k = greedyMeshing$getLightColor(world, state2, samplePos);
         float h = state2.getShadeBrightness(world, samplePos);
 
-        BlockState state3 = sampleState(world, scratch, samplePos, c3x, c3y, c3z);
-        int l = sampleLight(world, scratch, samplePos, state3, c3x, c3y, c3z);
+        samplePos.set(c3x, c3y, c3z);
+        BlockState state3 = world.getBlockState(samplePos);
+        int l = greedyMeshing$getLightColor(world, state3, samplePos);
         float m = state3.getShadeBrightness(world, samplePos);
 
-        int fsx = face.getStepX();
-        int fsy = face.getStepY();
-        int fsz = face.getStepZ();
-        boolean open0 = isOpenAt(world, scratch, samplePos, c0x + fsx, c0y + fsy, c0z + fsz);
-        boolean open1 = isOpenAt(world, scratch, samplePos, c1x + fsx, c1y + fsy, c1z + fsz);
-        boolean open2 = isOpenAt(world, scratch, samplePos, c2x + fsx, c2y + fsy, c2z + fsz);
-        boolean open3 = isOpenAt(world, scratch, samplePos, c3x + fsx, c3y + fsy, c3z + fsz);
+        boolean open0 = isOpen(world, samplePos, c0x + face.getStepX(), c0y + face.getStepY(), c0z + face.getStepZ());
+        boolean open1 = isOpen(world, samplePos, c1x + face.getStepX(), c1y + face.getStepY(), c1z + face.getStepZ());
+        boolean open2 = isOpen(world, samplePos, c2x + face.getStepX(), c2y + face.getStepY(), c2z + face.getStepZ());
+        boolean open3 = isOpen(world, samplePos, c3x + face.getStepX(), c3y + face.getStepY(), c3z + face.getStepZ());
 
         float n;
         int o;
@@ -137,12 +138,10 @@ public final class GreedyLighting {
             n = f;
             o = i;
         } else {
-            int dx = c0x + corner2.getStepX();
-            int dy = c0y + corner2.getStepY();
-            int dz = c0z + corner2.getStepZ();
-            BlockState diagonalState = sampleState(world, scratch, samplePos, dx, dy, dz);
+            samplePos.set(c0x + corner2.getStepX(), c0y + corner2.getStepY(), c0z + corner2.getStepZ());
+            BlockState diagonalState = world.getBlockState(samplePos);
             n = diagonalState.getShadeBrightness(world, samplePos);
-            o = sampleLight(world, scratch, samplePos, diagonalState, dx, dy, dz);
+            o = greedyMeshing$getLightColor(world, diagonalState, samplePos);
         }
 
         float p;
@@ -151,12 +150,10 @@ public final class GreedyLighting {
             p = f;
             q = i;
         } else {
-            int dx = c0x + corner3.getStepX();
-            int dy = c0y + corner3.getStepY();
-            int dz = c0z + corner3.getStepZ();
-            BlockState diagonalState = sampleState(world, scratch, samplePos, dx, dy, dz);
+            samplePos.set(c0x + corner3.getStepX(), c0y + corner3.getStepY(), c0z + corner3.getStepZ());
+            BlockState diagonalState = world.getBlockState(samplePos);
             p = diagonalState.getShadeBrightness(world, samplePos);
-            q = sampleLight(world, scratch, samplePos, diagonalState, dx, dy, dz);
+            q = greedyMeshing$getLightColor(world, diagonalState, samplePos);
         }
 
         float r;
@@ -165,12 +162,10 @@ public final class GreedyLighting {
             r = f;
             s = i;
         } else {
-            int dx = c1x + corner2.getStepX();
-            int dy = c1y + corner2.getStepY();
-            int dz = c1z + corner2.getStepZ();
-            BlockState diagonalState = sampleState(world, scratch, samplePos, dx, dy, dz);
+            samplePos.set(c1x + corner2.getStepX(), c1y + corner2.getStepY(), c1z + corner2.getStepZ());
+            BlockState diagonalState = world.getBlockState(samplePos);
             r = diagonalState.getShadeBrightness(world, samplePos);
-            s = sampleLight(world, scratch, samplePos, diagonalState, dx, dy, dz);
+            s = greedyMeshing$getLightColor(world, diagonalState, samplePos);
         }
 
         float t;
@@ -179,16 +174,15 @@ public final class GreedyLighting {
             t = f;
             u = i;
         } else {
-            int dx = c1x + corner3.getStepX();
-            int dy = c1y + corner3.getStepY();
-            int dz = c1z + corner3.getStepZ();
-            BlockState diagonalState = sampleState(world, scratch, samplePos, dx, dy, dz);
+            samplePos.set(c1x + corner3.getStepX(), c1y + corner3.getStepY(), c1z + corner3.getStepZ());
+            BlockState diagonalState = world.getBlockState(samplePos);
             t = diagonalState.getShadeBrightness(world, samplePos);
-            u = sampleLight(world, scratch, samplePos, diagonalState, dx, dy, dz);
+            u = greedyMeshing$getLightColor(world, diagonalState, samplePos);
         }
 
-        BlockState faceState = sampleState(world, scratch, samplePos, faceX, faceY, faceZ);
-        int v = sampleLight(world, scratch, samplePos, faceState, faceX, faceY, faceZ);
+        samplePos.set(faceX, faceY, faceZ);
+        BlockState faceState = world.getBlockState(samplePos);
+        int v = greedyMeshing$getLightColor(world, faceState, samplePos);
         float w = faceState.getShadeBrightness(world, samplePos);
 
         float ao0 = (m + f + p + w) * 0.25F;
@@ -349,10 +343,6 @@ public final class GreedyLighting {
     }
 
     private static int greedyMeshing$getLightColor(BlockAndTintGetter world, BlockState state, BlockPos pos) {
-        return GreedyDynamicLightsCompat.apply(world, state, pos, greedyMeshing$getLightColorRaw(world, state, pos));
-    }
-
-    private static int greedyMeshing$getLightColorRaw(BlockAndTintGetter world, BlockState state, BlockPos pos) {
         //? if >=26.2 {
         /*return LIGHTER.get().getLightCoords(state, world, pos);
         *///?} else if UNOBFUSCATED {
@@ -360,31 +350,6 @@ public final class GreedyLighting {
         *///?} else {
         return LevelRenderer.getLightColor(world, pos);
         //?}
-    }
-
-    /** Positions the shared scratch pos at (x, y, z) and returns the state there, via the section cache when set. */
-    private static BlockState sampleState(BlockAndTintGetter world, Scratch scratch, BlockPos.MutableBlockPos pos,
-                                          int x, int y, int z) {
-        pos.set(x, y, z);
-        GreedySectionCache cache = scratch.cache;
-        return cache != null ? cache.state(x, y, z) : world.getBlockState(pos);
-    }
-
-    private static int sampleLight(BlockAndTintGetter world, Scratch scratch, BlockPos.MutableBlockPos pos,
-                                   BlockState state, int x, int y, int z) {
-        GreedySectionCache cache = scratch.cache;
-        return cache != null ? cache.light(x, y, z) : greedyMeshing$getLightColor(world, state, pos);
-    }
-
-    private static boolean isOpenAt(BlockAndTintGetter world, Scratch scratch, BlockPos.MutableBlockPos pos,
-                                    int x, int y, int z) {
-        GreedySectionCache cache = scratch.cache;
-        return cache != null ? !cache.occludes(x, y, z) : isOpen(world, pos, x, y, z);
-    }
-
-    /** Packed light for an already-resolved state at {@code pos}. */
-    public static int lightAt(BlockAndTintGetter world, BlockState state, BlockPos pos) {
-        return greedyMeshing$getLightColor(world, state, pos);
     }
 
     /** Packed block/sky light at a face sample, using the version-correct light API. */
@@ -412,7 +377,5 @@ public final class GreedyLighting {
         // Set once per section build. False inside a Sable sub-level, whose own shader applies
         // directional shading dynamically — baking ours in on top would double it (issue #4).
         public boolean applyDirectionalShade = true;
-        // Optional per-section neighbour cache (Sodium path). Null means read straight from the world.
-        public GreedySectionCache cache;
     }
 }

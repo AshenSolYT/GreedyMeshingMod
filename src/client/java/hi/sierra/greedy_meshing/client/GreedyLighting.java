@@ -349,6 +349,10 @@ public final class GreedyLighting {
     }
 
     private static int greedyMeshing$getLightColor(BlockAndTintGetter world, BlockState state, BlockPos pos) {
+        return GreedyDynamicLightsCompat.apply(world, state, pos, greedyMeshing$getLightColorRaw(world, state, pos));
+    }
+
+    private static int greedyMeshing$getLightColorRaw(BlockAndTintGetter world, BlockState state, BlockPos pos) {
         //? if >=26.2 {
         /*return LIGHTER.get().getLightCoords(state, world, pos);
         *///?} else if UNOBFUSCATED {
